@@ -1,0 +1,45 @@
+Reflection Mechanism
+
+java.lang.reflect.*
+
+-> need to be imported for reflection API
+
+6 Reflection:
+
+7 ->The ability to examine or modify the run-time behavior of java applications
+
+8->The ability of a computer program to examine and modify the structure and behavior
+
+10
+
+9 of program at run time
+
+12
+
+11 Reflection API is used to
+
+13 Inspect class and method modifiers private, public, final, abstract, etc.
+
+14 Inspect constructors, methods and their parameters
+
+15
+
+16 Get and Set private data
+
+17 Invoke public / private methods
+
+18
+
+19
+
+20 For every type of object, the JVM instantiates an
+
+21 immutable instance of java.lang.Class which provides methods to
+
+22 examine the runtime properties of the object including its members and type information.
+
+23
+
+24 *java.lang.Class also provides the ability to create new classes and objects.
+
+25 Most importantly, it is the entry point for all of the Reflection APIs.
