@@ -1,0 +1,48 @@
+
+
+Here,
+
+the issue is with Null values in DataBase
+
+If the log shows null values, your JSON request is not mapped correctly (fix #2 should resolve it).
+
+
+Fix :
+
+1) we have to check Entity fileds and data sending via Json/postman matching same
+2) If we are sending data to DB, it should be case sensitive
+
+
+Your JSON request uses camelCase (empName, band, salary, experience), but your entity uses PascalCase (EmpName, Band, etc.).
+
+
+The Fix is,Add @JsonProperty Annotations
+
+@Column(name = "emp_name")
+    @JsonProperty("empName") // Maps JSON "empName" to Java "EmpName"
+    private String EmpName;
+
+    @Column(name = "band")
+    @JsonProperty("band")
+    private String Band;
+
+    @Column(name = "salary")
+    @JsonProperty("salary")
+    private Integer Salary;
+
+    @Column(name = "experience")
+    @JsonProperty("experience")
+    private Integer Experience;
+    
+    
+ --------- JSON Data ----------
+ 
+ JSon Property filed we have to use while sending data
+ 
+{
+    "empName": "John Doe",
+    "band": "B2",
+    "salary": 60000,
+    "experience": 5
+}
+

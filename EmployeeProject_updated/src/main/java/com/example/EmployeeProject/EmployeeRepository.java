@@ -1,0 +1,16 @@
+package com.example.EmployeeProject;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
+
+	public List<Employee> findBySalaryLessThan(Integer salary);
+	
+	public List<Employee> findByEmpNameStartingWith(String empName);
+
+	public List<Employee> findByBandAndExperience(String band,Integer experience);
+}
