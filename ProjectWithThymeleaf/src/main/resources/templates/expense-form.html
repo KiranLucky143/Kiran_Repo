@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Form</title>
+	
+	<style>
+		
+		.button_div{
+			
+			display: flex;
+			
+			
+		}
+		.btn{
+			
+			width: 60px;
+			height: 30px;
+			background-color: blueviolet;
+			border: 5px solid green;
+			border-radius: 1px;
+			cursor: pointer;
+			
+			
+		}
+		
+		.btn:hover{
+			
+			color: aliceblue;
+			background-color: black;
+		}
+		
+		
+		.btn_new{
+			
+			width: 120px;
+			height: 30px;
+			background-color: blueviolet;
+			border: 5px solid green;
+			border-radius: 1px;
+			cursor: pointer;
+			margin-right: 10px;
+			
+			
+		}
+		
+		.btn_new:hover{
+			
+			color: aliceblue;
+			background-color: black;
+		}
+		
+		
+		
+	</style>
+</head>
+<body>
+    <h2>Expense Form</h2>
+   
+	
+	<form th:action="@{/expense/expenseInfo}" method="post" th:object="${expense}">
+	        <label for="name">Expense Amount :</label><br>
+	        <input type="text"  name="name" required th:field="*{expenseAmount}"><br><br>
+	        
+	        <label for="email">Expense Type :</label><br>
+	        <input type="text"  name="Expense Type" required th:field="*{expenseType}"><br><br>
+	        
+			<div class="button_div">
+				
+				<input type="submit" value="Send Message" class="btn_new">
+						
+				<input type="button" onclick="show()" class="btn" value="Click"></input>
+				
+			</div>
+	        
+	       
+			   
+	 </form>
+   
+	 <script>
+		
+		function show(){
+			
+			console.log("Clicked!")
+			alert("Clicked!")
+		}
+		
+	 </script>
+</body>
+</html>
