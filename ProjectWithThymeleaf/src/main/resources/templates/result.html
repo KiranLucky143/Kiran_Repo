@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Expense Info</title>
+	
+	<style>
+		
+		.main{
+			
+			border: 20px;
+			background-color: aquamarine;
+			align-items: center;
+			text-align: center;
+			border-radius: 5px solid red;
+			
+		}
+		
+		.expList{
+			
+			border: 10px sold red;
+		}
+		
+		
+	</style>
+</head>
+<body>
+	<div class="main">
+		
+		<h2>Current Expense Information</h2>
+		<h2>Current Expense Amount is : <span th:text="${expense.expenseAmount}"></span></h2>
+		<h2>Current Expense Type is : <span th:text="${expense.expenseType}"></span></h2>
+		
+		<ul class="expList">
+		      <li th:each="exp : ${expenseList}">
+		          Type: <span th:text="${exp.expenseType}"></span> | 
+		          Amount: <span th:text="${exp.expenseAmount}"></span>
+		      </li>
+		  </ul>
+		  
+		<a href="http://localhost:1111/expense/show">Click Here to go back!</a>
+	</div>
+   
+</body>
+</html>
