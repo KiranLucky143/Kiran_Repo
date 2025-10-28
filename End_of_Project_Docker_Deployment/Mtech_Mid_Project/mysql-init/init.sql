@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS loan_db;
+CREATE DATABASE IF NOT EXISTS rule_manager;
+
+CREATE USER IF NOT EXISTS 'loan_user'@'%' IDENTIFIED BY 'Admin@123';
+CREATE USER IF NOT EXISTS 'ruleuser'@'%' IDENTIFIED BY 'Rule@123';
+
+GRANT ALL PRIVILEGES ON loan_db.* TO 'loan_user'@'%';
+GRANT ALL PRIVILEGES ON rule_manager.* TO 'ruleuser'@'%';
+FLUSH PRIVILEGES;

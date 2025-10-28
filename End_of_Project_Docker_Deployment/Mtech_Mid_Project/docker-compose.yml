@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: loan_db
+      MYSQL_USER: loan_user
+      MYSQL_PASSWORD: Admin@123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - drools-net
+
+  droolsengine:
+    build: droolsengine/droolsengine
+    container_name: droolsengineapp
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/loan_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: loan_user
+      SPRING_DATASOURCE_PASSWORD: Admin@123
+    networks:
+      - drools-net
+
+  rulemanager:
+    build: rulemanager/rulemanager
+    container_name: rulemanagerapp
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/rule_manager?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ruleuser
+      SPRING_DATASOURCE_PASSWORD: Rule@123
+    networks:
+      - drools-net
+
+volumes:
+  mysql_data:
+
+networks:
+  drools-net:

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Loan Applications</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-primary">All Loan Applications</h2>
+    <a class="btn btn-primary" href="/loan/form">+ New Application</a>
+</div>
+
+
+
+<table class="table table-striped table-bordered align-middle">
+    <thead class="table-dark">
+    <tr>
+        <th>Application ID</th>
+        <th class="text-end">Income</th>
+        <th class="text-end">Loan Amount</th>
+        <th>Decision</th>
+        <th class="text-center">Transactions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--  Show message if no applications -->
+    <tr th:if="${#lists.isEmpty(applications)}">
+        <td colspan="5" class="text-center text-muted py-3">No applications found</td>
+    </tr>
+
+    <!--  Render applications if available -->
+    <tr th:each="app : ${applications}">
+        <td th:text="${app.appId}"></td>
+        <td class="text-end" th:text="${#numbers.formatDecimal(app.income,1,'COMMA',2,'POINT')}"></td>
+        <td class="text-end" th:text="${#numbers.formatDecimal(app.loanAmount,1,'COMMA',2,'POINT')}"></td>
+        <td>
+            <span th:class="${app.decision == 'APPROVED' ? 'badge bg-success fs-6 p-2' :
+                             app.decision == 'REJECTED' ? 'badge bg-danger fs-6 p-2' :
+                             'badge bg-secondary fs-6 p-2'}"
+                  th:text="${app.decision}">
+            </span>
+        </td>
+        <td class="text-center">
+            <a th:href="@{'/loan/' + ${app.appId} + '/transactions'}"
+               class="btn btn-sm btn-outline-info">View</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <a class="btn btn-secondary" href="/user/dashboard">← Dashboard</a>
+    </div>
+</div>
+
+</body>
+</html>

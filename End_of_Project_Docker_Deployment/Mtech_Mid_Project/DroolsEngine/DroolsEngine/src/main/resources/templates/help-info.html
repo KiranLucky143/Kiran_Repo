@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Help</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin:0; padding:0; }
+        .container { max-width: 900px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #007bff; }
+        ul { line-height: 1.8; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-btn { margin-top: 20px; display: inline-block; padding: 8px 15px; background: #007bff; color: #fff; border-radius: 5px; text-decoration: none; }
+        .back-btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Help & Support</h1>
+    <p>Welcome to the help section. Here are some tips and guidance for using the system:</p>
+
+    <ul>
+        <li>Check your dashboard regularly for updates.</li>
+        <li>Use the admin panel if you have administrative privileges.</li>
+        <li>If you encounter issues with transactions, please contact support.</li>
+        <li>For security issues, change your password regularly.</li>
+    </ul>
+
+    <a th:href="@{/user/dashboard}" class="back-btn">Back to Dashboard</a>
+</div>
+
+</body>
+</html>

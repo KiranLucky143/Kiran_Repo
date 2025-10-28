@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>User Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root{
+          --sidebar-width: 230px;
+          --bg-1: #0a1224;
+          --bg-2: #0f2740;
+          --accent: #1fa6ff;
+          --card-bg: linear-gradient(145deg, #0f2a4a, #0b1830);
+        }
+
+        html,body { height:100%; }
+        body {
+          margin:0;
+          font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+          background: linear-gradient(135deg, #071028, #08142b 40%, #0b1f36);
+          color: #e9f4ff;
+          min-height:100vh;
+        }
+
+        /* top navbar */
+        .topbar {
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          height:72px;
+          padding: 0 22px;
+          background: rgba(6,14,28,0.6);
+          backdrop-filter: blur(4px);
+          box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+          position:sticky;
+          top:0;
+          z-index:30;
+        }
+        .brand {
+          display:flex;
+          align-items:center;
+          gap:12px;
+        }
+        .brand img.logo {
+          width:48px;
+          height:48px;
+          object-fit:contain;
+          border-radius:6px;
+          background: rgba(255,255,255,0.02);
+          padding:4px;
+        }
+        .brand .title {
+          font-weight:700;
+          color: var(--accent);
+          letter-spacing:0.2px;
+        }
+
+        /* main layout */
+        .main {
+          display:flex;
+          gap:28px;
+          padding: 28px;
+        }
+
+        /* left nav (kept slim but visible) */
+        .leftnav {
+          width: var(--sidebar-width);
+          min-height: calc(100vh - 72px);
+          background: linear-gradient(180deg, rgba(4,10,22,0.45), rgba(6,16,30,0.55));
+          border-radius: 12px;
+          padding:18px;
+          box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+        }
+        .leftnav .nav-item {
+          color: #bfcfe6;
+          padding:10px 6px;
+          display:flex;
+          align-items:center;
+          gap:10px;
+          border-radius:8px;
+          margin-bottom:6px;
+          text-decoration:none;
+        }
+        .leftnav .nav-item:hover {
+          background: rgba(31,166,255,0.06);
+          color: var(--accent);
+          transform: translateX(6px);
+        }
+
+        /* content area */
+        .content {
+          flex:1;
+          min-height: calc(100vh - 72px);
+        }
+        .content .welcome {
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:16px;
+          margin-bottom:18px;
+        }
+        .welcome h2 {
+          margin:0;
+          color:#eaf7ff;
+          font-weight:700;
+        }
+        .welcome small { color:#b9d9ff; opacity:0.9; }
+
+        .cards-grid {
+          display:grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap:22px;
+        }
+
+        .module-card {
+          background: var(--card-bg);
+          border-radius: 14px;
+          padding:18px;
+          box-shadow: 0 8px 26px rgba(2,8,20,0.5);
+          transition: transform .22s ease, box-shadow .22s ease;
+          min-height:240px;
+          display:flex;
+          flex-direction:column;
+          justify-content:space-between;
+        }
+        .module-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 14px 36px rgba(4,14,36,0.6);
+        }
+
+        .module-card .thumb {
+          width:100%;
+          height:120px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          overflow:hidden;
+          border-radius:10px;
+          background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        }
+        .module-card .thumb img {
+          max-width:100%;
+          max-height:100%;
+          object-fit:contain;
+          display:block;
+        }
+        /* fallback SVG shown if image fails */
+        .img-fallback {
+          width:72px;
+          height:72px;
+          display:inline-block;
+          background:transparent;
+          color: #9fcfff;
+        }
+
+        .module-card h4 {
+          margin:12px 0 6px 0;
+          color:var(--accent);
+          font-weight:700;
+        }
+        .module-card p { margin:0; color:#cfeaff; opacity:0.95; }
+
+        .module-actions {
+          margin-top:14px;
+          display:flex;
+          gap:10px;
+          flex-wrap:wrap;
+        }
+        .btn-action {
+          background: linear-gradient(90deg,#0f6fe3,#2fb0ff);
+          color:white;
+          border:none;
+          padding:8px 12px;
+          border-radius:10px;
+          font-weight:600;
+          text-decoration:none;
+          display:inline-flex;
+          align-items:center;
+          gap:8px;
+        }
+        .btn-ghost {
+          background:transparent;
+          border:1px solid rgba(255,255,255,0.06);
+          color:#dff5ff;
+          padding:8px 12px;
+          border-radius:10px;
+          text-decoration:none;
+        }
+
+        /* responsive tweaks */
+        @media (max-width: 900px) {
+          .main { padding:12px; flex-direction:column; }
+          .leftnav { width:100%; display:flex; gap:12px; overflow:auto; }
+          .leftnav .nav-item { white-space:nowrap; }
+          .topbar { padding: 10px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Topbar -->
+<div class="topbar">
+    <div class="brand">
+        <!-- use Thymeleaf resource path for static images -->
+        <img th:src="@{/images/citi-logo.png}" alt="Bank Logo" class="logo"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block'">
+        <!-- fallback text (hidden unless image missing) -->
+        <div style="display:none" class="img-fallback" aria-hidden="true">
+            <!-- small inline SVG if image missing -->
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="24" height="24" rx="5" fill="#072140"/>
+                <path d="M6 12h12" stroke="#1fa6ff" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="title">Citi Bank</div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+        <div style="text-align:right; margin-right:8px;">
+            <div style="font-weight:700" th:text="${username}">User Name</div>
+            <small style="color:#bcdfff" th:text="${userEmail}">user@mail.com</small>
+        </div>
+
+        <!-- logout trigger (confirm) -->
+        <button class="btn btn-sm" style="background:#e94b4b;color:white;border:none;border-radius:8px;padding:8px 12px;"
+                onclick="showLogoutConfirm()">
+            <i class="bi bi-box-arrow-right"></i>&nbsp;Logout
+        </button>
+    </div>
+</div>
+
+<!-- Main layout -->
+<div class="main">
+    <!-- left nav -->
+    <aside class="leftnav">
+        <a class="nav-item" th:href="@{/user/dashboard}">
+            <i class="bi bi-speedometer2" style="font-size:1.1rem;color:var(--accent)"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a class="nav-item" th:href="@{/card/all}">
+            <i class="bi bi-credit-card-2-front" style="font-size:1.05rem;color:#89c7ff"></i>
+            <span>Credit Cards</span>
+        </a>
+
+        <a class="nav-item" th:href="@{/loan/all}">
+            <i class="bi bi-wallet2" style="font-size:1.05rem;color:#89c7ff"></i>
+            <span>Loans</span>
+        </a>
+
+        <a class="nav-item" th:href="@{/product/all}">
+            <i class="bi bi-box-seam" style="font-size:1.05rem;color:#89c7ff"></i>
+            <span>Products</span>
+        </a>
+
+        <a class="nav-item" th:href="@{/admin/users}">
+            <i class="bi bi-plus-square" style="font-size:1.05rem;color:#89c7ff"></i>
+            <span>Goto Admin Screen</span>
+        </a>
+
+        <div style="height:18px"></div>
+
+        <div style="opacity:0.75;font-size:0.9rem;color:#bcdfff">Help & Settings</div>
+        <a class="nav-item" th:href="@{/help}"><i class="bi bi-question-circle"></i><span>Help</span></a>
+        <a class="nav-item" th:href="@{/settings}"><i class="bi bi-gear"></i><span>Settings</span></a>
+
+        <div style="flex:1"></div>
+
+        <div style="font-size:0.8rem;color:#9fcfff;opacity:0.9">Logged in</div>
+        <div style="font-size:0.75rem;color:#bfdffb">Active session</div>
+        <br><br>
+        <!-- App Version Footer -->
+        <div class="app-version">
+           <h6>Citi Bank Portal v1.0.0<br>© 2025 </h6>
+        </div>
+
+    </aside>
+
+    <!-- content -->
+    <section class="content">
+        <div class="welcome">
+            <div>
+                <h2>Welcome back, <span th:text="${username}">User</span></h2>
+                <small>Here are quick links to your modules</small>
+            </div>
+
+        </div>
+
+        <div class="cards-grid">
+            <!-- Credit Card Module -->
+            <div class="module-card">
+                <div class="thumb">
+                    <img th:src="@{/images/creditcard.png}" alt="Credit Card"
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=80 height=80 viewBox=\\'0 0 24 24\\'><rect width=24 height=24 rx=4 fill=\\'#08263f\\'></rect><path d=\\'M3 6h18v12H3z\\' fill=\\'#0d4f7f\\'></path></svg>'">
+                </div>
+
+                <div>
+                    <h4>Credit Cards</h4>
+                    <p>Manage applications, view offers and transactions for your cards.</p>
+
+                    <div class="module-actions">
+                        <a class="btn-action" th:href="@{/card/form}">Apply Card</a>
+                        <a class="btn-ghost" th:href="@{/card/all}">View Cards</a>
+                        <a th:if="${cardAppId != null}" class="btn-ghost" th:href="@{'/card/' + ${cardAppId}}">My Card Result</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loan Module -->
+            <div class="module-card">
+                <div class="thumb">
+                    <img th:src="@{/images/loan.png}" alt="Loan"
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=80 height=80 viewBox=\\'0 0 24 24\\'><rect width=24 height=24 rx=4 fill=\\'#08263f\\'></rect><path d=\\'M6 10h12v8H6z\\' fill=\\'#0d4f7f\\'></path></svg>'">
+                </div>
+
+                <div>
+                    <h4>Loans</h4>
+                    <p>Apply for or review your personal, home and vehicle loans.</p>
+
+                    <div class="module-actions">
+                        <a class="btn-action" th:href="@{/loan/form}">Apply Loan</a>
+                        <a class="btn-ghost" th:href="@{/loan/all}">Loan List</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Module -->
+            <div class="module-card">
+                <div class="thumb">
+                    <img th:src="@{/images/product.png}" alt="Product"
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='<svg width=80 height=80 viewBox=\\'0 0 24 24\\'><rect width=24 height=24 rx=4 fill=\\'#08263f\\'></rect><path d=\\'M4 6h16v12H4z\\' fill=\\'#0d4f7f\\'></path></svg>'">
+                </div>
+
+                <div>
+                    <h4>Products</h4>
+                    <p>Check product offers, cashback and transaction history.</p>
+
+                    <div class="module-actions">
+                        <a class="btn-action" th:href="@{/product/form}">Add Product</a>
+                        <a class="btn-ghost" th:href="@{/product/all}">Product List</a>
+                        <a th:if="${productAppId != null}" class="btn-ghost" th:href="@{'/product/' + ${productAppId} + '/transactions'}">Transactions</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<!-- Logout confirmation modal to preserve original UX -->
+<div class="modal fade" id="logoutConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:#07182a;color:white">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Logout</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger" th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function showLogoutConfirm() {
+      var modalEl = document.getElementById('logoutConfirmModal');
+      var modal = new bootstrap.Modal(modalEl, {});
+      modal.show();
+    }
+</script>
+</body>
+</html>

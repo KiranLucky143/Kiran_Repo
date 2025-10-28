@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings | Citi Bank</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #1e293b;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background-color: #334155;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .option:hover {
+            background-color: #475569;
+        }
+
+        .option h3 {
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .content {
+            display: none;
+            margin-top: 10px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .back-btn {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .back-btn a {
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .back-btn a:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Settings</h2>
+
+    <div class="option" onclick="toggleContent('terms')">
+        <h3>Terms & Conditions <span id="icon-terms">▼</span></h3>
+        <div id="terms" class="content">
+            <p>
+                By accessing Citi Bank's portal, you agree to comply with our banking and data policies.
+                Unauthorized access or misuse of this platform is strictly prohibited.
+                Please review updates periodically as terms may change.
+            </p>
+        </div>
+    </div>
+
+    <div class="option" onclick="toggleContent('about')">
+        <h3>About Us <span id="icon-about">▼</span></h3>
+        <div id="about" class="content">
+            <p>
+                Citi Bank provides innovative financial solutions including Credit Cards,
+                Loans, and personalized offers. This system enables users to apply,
+                manage, and track their applications seamlessly.
+            </p>
+        </div>
+    </div>
+
+    <div class="option" onclick="toggleContent('help')">
+        <h3>Help <span id="icon-help">▼</span></h3>
+        <div id="help" class="content">
+            <p>
+                For support, contact our 24x7 helpline at <b>1800-123-456</b> or email
+                <b>support@citibank.com</b>. Visit the Help section in your dashboard for FAQs and guides.
+            </p>
+        </div>
+    </div>
+
+    <div class="back-btn">
+        <a th:href="@{/user/dashboard}">← Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    function toggleContent(id) {
+        const content = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id);
+
+        // Collapse all
+        document.querySelectorAll('.content').forEach(c => c.style.display = 'none');
+        document.querySelectorAll('[id^="icon-"]').forEach(i => i.textContent = '▼');
+
+        // Toggle selected one
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+            icon.textContent = '▼';
+        } else {
+            content.style.display = 'block';
+            icon.textContent = '▲';
+        }
+    }
+</script>
+
+</body>
+</html>
