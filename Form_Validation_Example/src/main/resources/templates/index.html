@@ -1,0 +1,12 @@
+<form th:action="@{/getDetails}" method="post" th:object="${form}">
+    <label>Name</label>
+    <input type="text" placeholder="First Name" th:field="*{name}"><br><br>
+
+    <label>Company</label>
+    <input type="text" placeholder="Company" th:field="*{company}"><br><br>
+
+    <label>Country</label>
+    <input type="text" placeholder="Country" th:field="*{country}"><br><br>
+
+    <input type="submit" value="Submit">
+</form>
